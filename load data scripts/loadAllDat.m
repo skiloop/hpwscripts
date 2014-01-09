@@ -5,8 +5,13 @@ for i=1:len
     load(filelist(i).name,'-ascii');
 end
 
-
 filelist = dir('*.txt');
+len = length(filelist);
+for i=1:len
+    load(filelist(i).name,'-ascii');
+end
+
+filelist = dir('*.dat\n');
 len = length(filelist);
 for i=1:len
     load(filelist(i).name,'-ascii');

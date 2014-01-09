@@ -1,4 +1,4 @@
-function makemovie(movname,varhead,file,figname,islog,dim)
+function makemovie(movname,varhead,file,figname,islog)
 % function MAKEMOVIE
 % Make movie with a series of variables with name 'varhead' in 'file'.
 % Usage: makemovie(movname,varhead,file,figname)
@@ -49,11 +49,14 @@ set(gca,'YDir','Normal');
 ax = gca;
 colorbar;
 title(figname);
-mov(1)=getframe(h);
+% get length of array
+len = length(li);
+% movie initial
+mov=moviein(len);
+mov(:,1)=getframe(h);
 % yt = get(gca,'ytick');
 % xt = get(gca,'xtick');
 % start to make movie
-len = length(li);
 for iter = 2:len
     tvar= eval(li(iter).name);
     if islog
@@ -65,7 +68,7 @@ for iter = 2:len
     xlabel(ax,['Time : ',datestr(clock)]);
     title(ax,[figname,' step = ',int2str(iter)]);
     drawnow;
-    mov(iter) = getframe(h);
+    mov(:,iter) = getframe(h);
 end
 movie2avi(mov, movname, 'compression', 'None');
 

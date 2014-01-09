@@ -40,7 +40,7 @@ h = figure('NumberTitle','OFF','Name',figname);
 %l = round(dim*27):round(dim*175);
 tvar= eval(li(1).name);
 len=length(tvar);
-pmls=floor(pmlsize/10);
+pmls=floor(pmlsize);
 sti=pmls+1;
 eni=len-pmls;
 l=sti:eni;
@@ -51,7 +51,7 @@ if islog
 else
     ih= imagesc(tvar(l,l));
 end
-ih= imagesc(x,x,tvar(l,l));
+%ih= imagesc(x,x,tvar(l,l));
 set(gca,'YDir','Normal');
 ax = gca;
 colorbar;
@@ -79,7 +79,7 @@ for iter = 2:len
     drawnow;
     mov(:,iter) = getframe(h);
 end
-movie2avi(mov, movname, 'compression', 'None');
+%movie2avi(mov, movname, 'compression', 'None');
 
 
 

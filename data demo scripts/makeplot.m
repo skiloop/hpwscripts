@@ -1,4 +1,4 @@
-function makeplotm(movname,varhead,file,figname)
+function makeplot(movname,varhead,file,figname,step)
 % function MAKEMOVIE
 % Make movie with a series of variables with name 'varhead' in 'file'.
 % Usage: makemovie(movname,varhead,file)
@@ -26,9 +26,8 @@ if ~exist(file,'file');
 end
 
 % load variables
-varhead=strcat(varhead,'*');
-load(file,varhead);
-li = whos(varhead);
+varheads=strcat(varhead,'*');
+li = whos('-file',file,varheads);
 if isempty(li)
     warning('No variable names with  varhead found in the file.');
     return;
@@ -36,22 +35,24 @@ end
 
 % initial the figure
 h = figure('NumberTitle','OFF','Name',figname);
-l = 27:175;
+load(file,li(1).name);
 tvar= eval(li(1).name);
 % ih= plot(tvar(int16(end/2),l));
-ih= plot(tvar(int16(end/2),l));
+ih= plot(tvar);
 ax = gca;
-set(ax,'YLim',[0 3e20])
-colorbar;
+% set(ax,'YLim',[-1 1]);
 title(figname);
 mov(1)=getframe(h);
 
 % start to make movie
 len = length(li);
-for iter = 2:len
-    tvar= eval(li(iter).name);
-    set(ih,'YData',tvar(int16(end/2),l));
-    xlabel(ax,int2str(iter));
+for iter = 1:len
+    ffname=strcat(varhead,int2str(iter*step));
+    load(file,ffname);
+    tvar= eval(ffname);
+    set(ih,'YData',tvar);
+    xlabel(ax,['Time : ',datestr(clock)]);
+    title(ax,[figname,' step = ',int2str(iter*step)]);
     drawnow;
     mov(iter) = getframe(h);
 end

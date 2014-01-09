@@ -49,7 +49,6 @@ set(gca,'YDir','Normal');
 ax = gca;
 colorbar;
 title(figname);
-mov(1)=getframe(h);
 % yt = get(gca,'ytick');
 % xt = get(gca,'xtick');
 % start to make movie
@@ -57,6 +56,8 @@ len = length(li);
 if len>1000
     len=1000;
 end
+% movie initial
+mov=moviein(len);
 
 for iter = 1:len
     ffname=strcat(varhead,int2str(iter*step));
@@ -72,9 +73,9 @@ for iter = 1:len
     title(ax,[figname,' step = ',int2str(iter*step)]);
     drawnow;
     clear(li(iter).name);
-    mov(iter) = getframe(h);
+    mov(:,iter) = getframe(h);
 end
-movie2avi(mov, movname, 'compression', 'None');
+% movie2avi(mov, movname, 'compression', 'None');
 
 
 
